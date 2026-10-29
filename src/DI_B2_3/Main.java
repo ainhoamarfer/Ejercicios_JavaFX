@@ -1,4 +1,4 @@
-package app.DI_B2_3;
+package DI_B2_3;
 
 import java.util.List;
 import java.util.Optional;

@@ -18,10 +18,12 @@
     -color-fosforo: #ffb000;           /* texto ámbar */
 
 /* TODO T2: fuente, márgenes y color del foco (apartado 4) */
+-fx-font-family: "Calibri";
 }
 
 /* ---------- Selectores ---------- */
 /* TODO T3: reglas del apartado 5 */
+
 
 /* Fondo interno de la lista (TERMINADO): el ScrollPane tiene un nodo interno «viewport» */
 .contenedor-lista > .viewport {

@@ -1,4 +1,4 @@
-package app.DI_B2_2;
+package DI_B2_2;
 
 import java.text.Normalizer.Form;
 

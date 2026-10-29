@@ -1,12 +1,19 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "java",
-            "name": "JavaFX",
-            "request": "launch",
-            "mainClass": "app.PanelControlUsuario",
-            "vmArgs": "--module-path \"Z:\\javafx-27_windows-x64_bin-sdk\\javafx-sdk-27.0.1\\lib\" --add-modules javafx.controls,javafx.fxml"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "JavaFX",
+      "request": "launch",
+      "mainClass": "DI_B2_3.Main",
+      "vmArgs": "--module-path \"Z:\\javafx-27_windows-x64_bin-sdk\\javafx-sdk-27.0.1\\lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "JavaFX",
+      "request": "launch",
+      "mainClass": "DI_B2_2.Main",
+      "vmArgs": "--module-path \"Z:\\javafx-27_windows-x64_bin-sdk\\javafx-sdk-27.0.1\\lib\" --add-modules javafx.controls,javafx.fxml"
+    }
+  ]
 }
