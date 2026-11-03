@@ -60,6 +60,14 @@ public class Main extends Application {
 
         // TODO T1: asigna aquí los identificadores y clases del apartado 3
 
+        titulo.getStyleClass().add("titulo");
+        subtitulo.getStyleClass().add("subtitulo");
+        scroll.getStyleClass().add("contenedor-lista");
+        barraInferior.getStyleClass().add("barra-inferior");
+        contador.getStyleClass().add("contador");
+        btnAgregar.setId("btnAgregar");
+        
+
         // ---------- Lógica (no modificar) ----------
         btnAgregar.setOnAction(e -> agregar(txtTarea));
         txtTarea.setOnAction(e -> agregar(txtTarea));
@@ -130,6 +138,10 @@ public class Main extends Application {
         tarea.setMaxWidth(Double.MAX_VALUE);
         tarea.selectedProperty().addListener((obs, antes, ahora) -> actualizar());
         // TODO T1: añade la clase "tarea" y, si es urgente, también la clase "urgente"
+        tarea.getStyleClass().add("tarea");
+        if (urgente) {
+            tarea.getStyleClass().add("urgente");
+        }
         return tarea;
     }
 

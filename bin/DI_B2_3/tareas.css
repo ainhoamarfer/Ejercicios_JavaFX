@@ -18,12 +18,69 @@
     -color-fosforo: #ffb000;           /* texto ámbar */
 
 /* TODO T2: fuente, márgenes y color del foco (apartado 4) */
--fx-font-family: "Calibri";
+-fx-font-family: "Arial";
+-fx-font-size: 13px;
+-fx-padding: 20px;
+-fx-spacing: 14px;
+-fx-focus-color: -color-primario;
+-fx-faint-focus-color: transparent;
 }
 
 /* ---------- Selectores ---------- */
 /* TODO T3: reglas del apartado 5 */
+.titulo{
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-font-color: -color-primario;
+}
+.subtitulo{
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-font-color: -color-texto-suave;
+}
+.tarea{
+    -fx-padding: 8px 12px;
+    -fx-border-width: 0 0 2px 0;
+    -fx-border-color: -color-borde;
+}
+.urgente {
+    -fx-background-color: -color-urgente;
+     -fx-font-weight: bold;
+}
+.text-field{
+    -fx-background-color: -color-superficie;
+    -fx-border-color: -color-borde;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-background-radius: 5px;
+    -fx-padding: 6px 10px;
+}
 
+#btnAgregar{
+    -fx-background-color: -color-primario;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 6px 16px; 
+    -fx-cursor: hand;
+}
+
+.barrainferior.button{
+    -fx-background-color: -color-superficie;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-border-color: -color-borde;
+    -fx-border-width: 1px;
+    -fx-background-radius: 5px;
+    -fx-padding: 6px 16px;
+    -fx-font-color: -color-primario;
+}
+
+.contador, .subtitulo{
+    -fx-font-style: italic;
+
+}
 
 /* Fondo interno de la lista (TERMINADO): el ScrollPane tiene un nodo interno «viewport» */
 .contenedor-lista > .viewport {
@@ -32,3 +89,27 @@
 
 /* ---------- Pseudo-clases ---------- */
 /* TODO T4: reglas del apartado 6 y tachado */
+#btnEjemplo:hover { 
+ -fx-background-color: -color-texto;
+}
+
+.button:pressed {
+ -fx-scale-x: 0.96; -fx-scale-y: 0.96;
+}
+
+.textfield:focused{
+-fx-border-color: -color-borde;
+-fx-border-width: 2px;
+}
+
+.button:disabled{
+    -fx-opacity: 0.4;
+}
+
+.tarea:selected{
+    -fx-font-color: -color-texto-suave;
+}
+
+.tarea:selected .text {
+ -fx-strikethrough: true;
+}

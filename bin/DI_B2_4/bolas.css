@@ -1,0 +1,54 @@
+/* =========================================================
+   B2.4 — Bolas interactivas · Hoja de estilos (TERMINADA)
+   ========================================================= */
+
+.root {
+    -color-fondo: #e9edf2;
+    -color-superficie: #ffffff;
+    -color-zona: #10151c;
+    -color-borde: #2c3a4a;
+    -color-texto-suave: #5b6b7d;
+
+    -fx-background-color: -color-fondo;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+}
+
+.instrucciones {
+    -fx-padding: 10px 14px;
+    -fx-text-fill: -color-texto-suave;
+}
+
+.zona {
+    -fx-background-color: -color-zona;
+    -fx-border-color: -color-borde;
+    -fx-border-width: 2px;
+}
+
+.barra-estado {
+    -fx-background-color: -color-superficie;
+    -fx-padding: 6px 14px;
+    -fx-border-color: -color-borde;
+    -fx-border-width: 1px 0 0 0;
+}
+
+.barra-estado .label {
+    -fx-text-fill: -color-texto-suave;
+    -fx-font-family: "Monospaced";
+}
+
+/* El color de cada bola se asigna desde Java: aquí no se usa -fx-fill */
+.bola {
+    -fx-stroke: white;
+    -fx-stroke-width: 0;
+    -fx-cursor: hand;
+}
+
+.bola:hover {
+    -fx-stroke-width: 3;
+}
+
+.bola:pressed {
+    -fx-opacity: 0.8;
+    -fx-cursor: closed-hand;
+}
