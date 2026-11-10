@@ -53,8 +53,35 @@ public class Main extends Application {
         scene.getStylesheets().add(getClass().getResource("bolas.css").toExternalForm());
 
         // TODO T1: crear bolas con un clic y mostrar la posición del ratón
+        zona.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) { // botón izquierdo
+                crearBola(e.getX(), e.getY());
+                lblRaton.setText("Izquierdo en " + e.getX());
+            }
+        });
+
+        // Mientras el ratón se mueve por la zona, lblRaton muestra su posición: Ratón:
+        // 120, 85.
+        zona.setOnMouseMoved(e -> lblRaton.setText(String.format("Ratón: %.0f, %.0f", e.getX(), e.getY())));
+
+        // Cuando el ratón sale de la zona, lblRaton vuelve a mostrar Ratón: —.
+        zona.setOnMouseExited(e -> lblRaton.setText("Ratón: —"));
 
         // TODO T4: teclas C y Supr
+        zona.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.C) {
+                // Cambiar color de todas las bolas
+                for (Node bola : zona.getChildren()) {
+                    if (bola instanceof Bola) {
+                        ((Bola) bola).colorAleatorio();
+                    }
+                }
+            } else if (e.getCode() == KeyCode.DELETE) {
+                // Borrar todas las bolas
+                borrarTodo();
+                actualizar();
+            }
+        });
 
         actualizar();
         stage.setTitle("B2.4 — Bolas interactivas");
@@ -67,8 +94,27 @@ public class Main extends Application {
         Bola bola = new Bola(x, y);
 
         // TODO T2: clic en una bola (cambiar color o eliminar)
+        // Clic izquierdo en una bola: cambia de color.
+        // Clic derecho en una bola: desaparece y el contador se actualiza
+
+        bola.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
+                // Clic izquierdo: cambiar color
+                bola.colorAleatorio();
+
+            } else if (e.getButton() == MouseButton.SECONDARY) {
+                // Clic derecho: eliminar bola
+                zona.getChildren().remove(bola);
+                actualizar();
+            }
+            e.consume(); // los contenedores de la bola ya no reciben este clic
+        });
 
         // TODO T3: arrastrar la bola
+        bola.setOnMouseDragged(e -> {
+            bola.setCenterX(e.getX());
+            bola.setCenterY(e.getY());
+        });
 
         zona.getChildren().add(bola);
         actualizar();
