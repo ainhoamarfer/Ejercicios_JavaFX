@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -90,14 +91,49 @@ public class Main extends Application {
 
         // TODO T1: contador de caracteres del nombre (máximo 30)
         txtNombre.textProperty().addListener((obs, viejo, nuevo) -> {
-            lblContador.setText((nuevo.length() + "/" )));
+
+            lblContador.setText(nuevo.length() + "/" + MAX_NOMBRE);
+
+            if (nuevo.length() > 30) {
+                txtNombre.setText(viejo);
+            }
+
         });
 
         // TODO T2: comprobar el correo mientras se escribe
+        txtCorreo.textProperty().addListener((obs, viejo, nuevo) -> {
+            if (nuevo.isBlank()) {
+                mostrarAyuda(lblCorreo, "", null);
+                txtCorreo.pseudoClassStateChanged(ERROR, false);
+            } else if (correoValido(nuevo)) {
+                mostrarAyuda(lblCorreo, "Correo OK", "correcto");
+                txtCorreo.pseudoClassStateChanged(ERROR, false);
+            } else {
+                mostrarAyuda(lblCorreo, "Correo NO OK", "incorrecto");
+                txtCorreo.pseudoClassStateChanged(ERROR, true);
+            }
+        });
 
         // TODO T3: recalcular el total al cambiar la cuota o la piscina
+        grupoCuota.selectedToggleProperty().addListener((obs, anterior, actual) -> {
+            calcularTotal();
+        });
+
+        chkPiscina.selectedProperty().addListener((obs, anterior, actual) -> {
+            calcularTotal();
+        });
+
 
         // TODO T4: Registrar solo se habilita con los datos completos
+        //Qué debe pasar: Registrar solo está habilitado si el nombre no está vacío, el correo 
+        //es válido y se ha marcado la casilla de las condiciones. 
+        //1. Completa el método actualizarBoton(). Usa setDisable(...). 
+        //2. Llama a actualizarBoton() cada vez que cambie cualquiera de los tres datos: 
+        //desde los listeners de T1 y T2, y desde un listener nuevo en chkCondiciones.
+
+        chkCondiciones.selectedProperty().addListener((obs, anterior, actual) -> {
+            actualizarBoton();
+        });
 
         calcularTotal();
         actualizarBoton();
@@ -109,9 +145,16 @@ public class Main extends Application {
         stage.show();
     }
 
-    /** Habilita «Registrar» solo si el nombre no está vacío, el correo es válido y se aceptan las condiciones. */
+    /**
+     * Habilita «Registrar» solo si el nombre no está vacío, el correo es válido y
+     * se aceptan las condiciones.
+     */
     private void actualizarBoton() {
-        // TODO T4 (continuación, ver enunciado)
+        if (txtNombre.getText().isEmpty() || !correoValido(txtCorreo.getText()) || !chkCondiciones.isSelected()) {
+            btnRegistrar.setDisable(true);
+        } else {
+            btnRegistrar.setDisable(false);
+        }
     }
 
     // =========================================================
@@ -123,10 +166,13 @@ public class Main extends Application {
         RadioButton rb = new RadioButton(texto);
         rb.setToggleGroup(grupoCuota);
         rb.setUserData(precio);
+        rb.setMinWidth(Region.USE_PREF_SIZE);
         return rb;
     }
 
-    /** Calcula el total mensual (cuota elegida + piscina) y lo muestra en lblTotal. */
+    /**
+     * Calcula el total mensual (cuota elegida + piscina) y lo muestra en lblTotal.
+     */
     private void calcularTotal() {
         int total = 0;
         if (grupoCuota.getSelectedToggle() != null) {
@@ -143,7 +189,10 @@ public class Main extends Application {
         return texto.matches("[\\w.-]+@[\\w-]+(\\.[\\w-]+)+");
     }
 
-    /** Cambia el texto de una etiqueta de ayuda y le deja solo la clase indicada (o ninguna si es null). */
+    /**
+     * Cambia el texto de una etiqueta de ayuda y le deja solo la clase indicada (o
+     * ninguna si es null).
+     */
     private void mostrarAyuda(Label etiqueta, String texto, String clase) {
         etiqueta.setText(texto);
         etiqueta.getStyleClass().removeAll("correcto", "incorrecto");
