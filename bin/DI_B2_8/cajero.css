@@ -1,0 +1,170 @@
+/* =========================================================
+   B2.8 — Cajero del Banco de Springfield
+   Estética de dibujo animado: colores planos y saturados,
+   contornos negros, esquinas muy redondeadas.
+   Las medidas de letra van en em: así Ctrl +/− escala todo.
+   ========================================================= */
+
+/* ---------- Variables (TERMINADO: usa siempre estas variables) ---------- */
+.root {
+    -color-amarillo: #fed90f;
+    -color-cielo: #70d1fe;
+    -color-donut: #f49ac2;
+    -color-contorno: #1a1a1a;
+    -color-terminal: #0b2a12;
+    -color-texto-terminal: #7cfc00;
+    -color-foco: #ff6f00;
+    -color-error: #d62828;
+    -color-blanco: #ffffff;
+    -color-gris-tecla: #e6e6e6;
+
+    -fx-focus-color: -color-foco;
+    -fx-faint-focus-color: transparent;
+
+    -fx-background-color: -color-cielo;
+    -fx-font-family: "Verdana";
+    -fx-font-size: 14px;
+}
+
+/* ---------- Estructura (TERMINADO) ---------- */
+.label {
+    -fx-text-fill: -color-contorno;
+}
+
+.cabecera {
+    -fx-background-color: -color-amarillo;
+    -fx-border-color: -color-contorno;
+    -fx-border-width: 0 0 3px 0;
+    -fx-padding: 0.7em 1.4em;
+}
+
+.titulo-banco {
+    -fx-font-size: 1.8em;
+    -fx-font-weight: bold;
+}
+
+.donut-masa {
+    -fx-fill: -color-donut;
+    -fx-stroke: -color-contorno;
+    -fx-stroke-width: 2px;
+}
+
+.donut-agujero {
+    -fx-fill: -color-amarillo;
+    -fx-stroke: -color-contorno;
+    -fx-stroke-width: 2px;
+}
+
+.pantalla {
+    -fx-padding: 1.5em;
+}
+
+.formulario {
+    -fx-background-color: -color-contorno, -color-blanco;
+    -fx-background-insets: 0, 3;
+    -fx-background-radius: 18px, 15px;
+    -fx-padding: 1.4em;
+    -fx-pref-width: 24em;
+}
+
+.etiqueta-campo {
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.terminal {
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 1.05em;
+    -fx-text-fill: -color-texto-terminal;
+    -fx-background-color: -color-terminal;
+    -fx-background-radius: 6px;
+    -fx-padding: 16px;
+}
+
+.text-field {
+    -fx-background-color: -color-blanco;
+    -fx-background-radius: 10px;
+    -fx-border-color: -color-contorno;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-padding: 0.4em 0.7em;
+}
+
+.teclado {
+    -fx-hgap: 8px;
+    -fx-vgap: 8px;
+}
+
+.menu-operaciones {
+    -fx-hgap: 16px;
+    -fx-vgap: 16px;
+}
+
+.barra-estado {
+    -fx-background-color: -color-contorno;
+    -fx-padding: 0.3em 1em;
+}
+
+.barra-estado .label {
+    -fx-text-fill: -color-amarillo;
+    -fx-font-size: 0.85em;
+}
+
+.recibo {
+    -fx-background-color: -color-blanco;
+    -fx-padding: 16px;
+    -fx-font-family: "Monospaced";
+}
+
+.recibo-titulo {
+    -fx-font-weight: bold;
+}
+
+.arbol {
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 0.85em;
+}
+
+.dialog-pane {
+    -fx-background-color: -color-blanco;
+}
+
+.dialog-pane > .header-panel {
+    -fx-background-color: -color-amarillo;
+}
+
+/* TODO B1.1 — INICIO: Botones y estados (apartado B1) */
+/*  Selectores que usan los tests: .button, .button:hover, .button:disabled, .boton-principal, */
+/*  .boton-menu, .importe-rapido. Solo variables de color y tamaños en em. */
+
+
+/* TODO B1.1 — FIN */
+
+/* Teclas del teclado en pantalla (TERMINADO): contorno simulado con dos capas de fondo */
+.tecla {
+    -fx-pref-width: 3.4em;
+    -fx-pref-height: 3em;
+    -fx-font-size: 1.2em;
+    -fx-background-color: -color-contorno, linear-gradient(to bottom, -color-blanco, -color-gris-tecla);
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 12px, 10px;
+    -fx-border-color: transparent;
+}
+
+.tecla:pressed {
+    -fx-background-color: -color-contorno, -color-amarillo;
+    -fx-translate-y: 2px;
+}
+
+/* TODO B2.1 — INICIO: Foco visible (apartado B2) */
+/*  Selectores que usan los tests: .text-field:focused, .button:focused */
+
+
+/* TODO B2.1 — FIN */
+
+/* Importe erróneo: pseudo-clase propia :error, que se activa desde Java en C3 (TERMINADO) */
+.text-field:error {
+    -fx-border-color: -color-error;
+    -fx-background-color: -color-blanco, derive(-color-error, 85%);
+    -fx-background-insets: 0, 2;
+}
