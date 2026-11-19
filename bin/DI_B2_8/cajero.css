@@ -148,6 +148,25 @@
     -fx-cursor: hand;
 }
 
+.button:hover{
+    -fx-background-color: -color-amarillo;
+}
+
+.button:disabled{
+    -fx-opacity: 0.4;
+}
+
+.boton-principal{
+    -fx-background-color: -color-donut;
+}
+
+.boton-menu{
+    
+}
+
+.importe-rapido{
+    
+}
 /* TODO B1.1 — FIN */
 
 /* Teclas del teclado en pantalla (TERMINADO): contorno simulado con dos capas de fondo */
@@ -169,6 +188,14 @@
 /* TODO B2.1 — INICIO: Foco visible (apartado B2) */
 /*  Selectores que usan los tests: .text-field:focused, .button:focused */
 
+.text-field:focused{
+    -fx-border-width: 3px;
+    -fx-border-color: -color-foco;
+}
+
+.button:focused{
+    
+}
 
 /* TODO B2.1 — FIN */
 
