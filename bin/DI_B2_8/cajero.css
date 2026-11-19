@@ -136,7 +136,17 @@
 /* TODO B1.1 — INICIO: Botones y estados (apartado B1) */
 /*  Selectores que usan los tests: .button, .button:hover, .button:disabled, .boton-principal, */
 /*  .boton-menu, .importe-rapido. Solo variables de color y tamaños en em. */
-
+.button{
+    -fx-background-color: -color-blanco;
+    -fx-background-radius: 14px;
+    -fx-border-width: 2px;
+    -fx-border-color: -color-contorno;
+    -fx-border-radius: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-contorno;
+    -fx-padding: 0.4em 1em;
+    -fx-cursor: hand;
+}
 
 /* TODO B1.1 — FIN */
 

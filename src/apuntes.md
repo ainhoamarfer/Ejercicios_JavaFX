@@ -14,3 +14,25 @@ Se comprueba: la pantalla recibida (clase "pantalla") es la única pantalla del 
 
 marco.getChildren().removeIf(n -> n instanceof Pantalla);
 marco.setCenter(p);
+
+menuOperaciones.add(btnIngresar, 0, 0);
+btnIngresar.setMaxWidth(Double.MAX_VALUE);
+
+HBox opciones = new HBox(btnCancelar, btnAceptar);
+opciones.setAlignment(Pos.CENTER_RIGHT);
+
+VBox formulario = new VBox(terminal, new HBox(lblImporte,txtImporte), new FlowPane(rapidos), opciones); 
+formulario.setSpacing(12);
+
+ txtTarjeta.textProperty().addListener((observer, anterior, actual) -> {
+    if (actual.length() == 16){
+        txtPin.requestFocus(); //permite asignar el foco
+    }
+});
+
+ addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+    if (e.getCode() == KeyCode.ESCAPE){
+        limpiar();
+        e.consume();
+    }
+});

@@ -10,7 +10,10 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 /** Pantalla 3: ingresar o retirar dinero. */
 public class PantallaOperacion extends Pantalla {
@@ -79,8 +82,16 @@ public class PantallaOperacion extends Pantalla {
         //   - contenedor de los importes rápidos: id "importesRapidos"
         //   - ya creados: lblImporte (id "lblImporte") y txtImporte en la misma fila; btnCancelar y btnAceptar
         //   Obligatorio: comentario // LAYOUT: con la justificación.
-        Pane contenido = new Pane(terminal, lblImporte, txtImporte, btnCancelar, btnAceptar, teclado);
-        contenido.getChildren().addAll(rapidos);
+        
+        HBox opciones = new HBox(btnCancelar, btnAceptar);
+        opciones.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox formulario = new VBox(terminal, new HBox(lblImporte,txtImporte), new FlowPane(rapidos), opciones); 
+        formulario.setSpacing(12);
+       
+        HBox contenido = new HBox(formulario, teclado);
+        contenido.setSpacing(30);
+
         setCenter(contenido);
         // TODO A4.1 — FIN
 
