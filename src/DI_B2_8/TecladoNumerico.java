@@ -44,8 +44,10 @@ public class TecladoNumerico extends GridPane {
             }
             // TODO D2.1 — INICIO: Las teclas no reciben el foco (apartado D2)
             // Se comprueba: las teclas (clase "tecla") no reciben el foco.
-
+            
             BOTONES.add(tecla);
+
+            tecla.setFocusTraversable(false); 
             // TODO D2.1 — FIN
 
             // TODO A2.2 — INICIO: Colocar cada tecla en su fila y columna (apartado A2)

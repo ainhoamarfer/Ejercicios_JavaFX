@@ -106,9 +106,9 @@ public class PantallaMenu extends Pantalla {
             } else if ( e.getCode() == KeyCode.DIGIT3 || e.getCode() == KeyCode.NUMPAD3){
                btnSaldo.fire();
             } else if ( e.getCode() == KeyCode.DIGIT4 || e.getCode() == KeyCode.NUMPAD4){
-               
+               btnCambiarPin.fire();
             } else if ( e.getCode() == KeyCode.DIGIT5 || e.getCode() == KeyCode.NUMPAD5){
-               
+               btnSalir.fire();
             } 
         });
 
@@ -132,7 +132,7 @@ public class PantallaMenu extends Pantalla {
     public void enfocar() {
         // TODO D1.4 — INICIO: Foco inicial del menú (apartado D1)
         //   Se comprueba: foco en btnIngresar.
-
+        btnIngresar.requestFocus();
 
         // TODO D1.4 — FIN
     }

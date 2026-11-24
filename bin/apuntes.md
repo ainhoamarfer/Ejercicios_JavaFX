@@ -36,3 +36,13 @@ formulario.setSpacing(12);
         e.consume();
     }
 });
+
+scene.focusOwnerProperty().addListener((observ, viejo, nuevo) -> {
+    lblFoco.setText(describir(nuevo));
+});
+
+ txtTarjeta.requestFocus();
+
+ b.setFocusTraversable(false);
+
+ esto no entra ->      scene.getAccelerators().put(new KeyCodeCombination(KeyCode.F1), this::mostrarAyuda);

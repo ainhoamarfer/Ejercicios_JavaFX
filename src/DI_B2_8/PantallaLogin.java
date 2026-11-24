@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -59,6 +60,30 @@ public class PantallaLogin extends Pantalla {
         //   Nombres que usan los tests: txtTarjeta, txtPin, btnAceptar (ids ya asignados).
         //   Se comprueba: 16 dígitos en txtTarjeta -> foco en txtPin; Enter -> mismo efecto que btnAceptar;
         //   Esc -> txtTarjeta y txtPin vacíos y foco en txtTarjeta (método limpiar()).
+        txtTarjeta.textProperty().addListener((observer, anterior, actual) -> {
+            if (actual.length() == 16){
+                txtPin.requestFocus(); //permite asignar el foco
+            }
+        });
+
+        txtPin.textProperty().addListener((observer, anterior, actual) -> {
+            if (actual.length() == 4){
+                btnAceptar.requestFocus(); //permite asignar el foco
+            }
+        });
+
+        addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.ESCAPE){
+                limpiar();
+                e.consume();
+                txtTarjeta.requestFocus();
+            } else if ( e.getCode() == KeyCode.ENTER){
+               aceptar();
+               e.consume();
+            }
+        });
+
+
 
 
         // TODO C1.1 — FIN
@@ -95,7 +120,20 @@ public class PantallaLogin extends Pantalla {
         // Provisional: solo entra si los datos son correctos, sin avisar de nada
         if (banco.login(txtTarjeta.getText(), txtPin.getText()) == Banco.ResultadoLogin.CORRECTO) {
             app.iniciarSesion();
+
+        } else if ((banco.login(txtTarjeta.getText(), txtPin.getText()) == Banco.ResultadoLogin.INCORRECTO)){
+            app.alerta(Alert.AlertType.ERROR, "Error de identificación", "Número de tarjeta o PIN no válidos. Intentos restantes: " + banco.getIntentosRestantes());
+            txtPin.clear();
+            txtPin.requestFocus();
+
+        } else {
+
+            //BLOQUEADA
+            app.alerta(Alert.AlertType.ERROR, "Tarjeta bloqueada", "Tarjeta bloqueada, Acuda a su sucursal de Springfield.");
+            limpiar();
         }
+
+
         // TODO E1.1 — FIN
     }
 
@@ -109,7 +147,7 @@ public class PantallaLogin extends Pantalla {
     public void enfocar() {
         // TODO D1.3 — INICIO: Foco inicial de la identificación (apartado D1)
         //   Se comprueba: foco en txtTarjeta.
-
+        txtTarjeta.requestFocus();
 
         // TODO D1.3 — FIN
     }
