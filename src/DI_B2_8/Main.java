@@ -235,7 +235,26 @@ public class Main extends Application {
         //   - atributo recibo (Stage): título "Recibo", propietaria ventana, 300 x 260
         //   - contenido con id "recibo" y botón con id "btnCerrarRecibo" (ya creados)
         //   - nunca hay más de una ventana visible con el título "Recibo"
+        
 
+        //la otra escena se hizo asi
+        //scene.getStylesheets().add(getClass().getResource("cajero.css").toExternalForm());
+
+
+        Scene escena = new Scene(contenido, 300, 260);
+        //añade estilos de la otra escena
+        escena.getStylesheets().addAll(scene.getStylesheets());
+        recibo = new Stage();
+        recibo.setTitle("Título recibo");
+
+        //el dueño de recibo es ventana
+        recibo.initOwner(ventana);
+
+        recibo.initModality(Modality.NONE);
+        recibo.setScene(escena);
+        recibo.show();
+        btnCerrar.setOnAction(e -> recibo.close());
+        ventana.requestFocus();
 
         // TODO E3.1 — FIN
     }

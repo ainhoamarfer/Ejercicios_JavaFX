@@ -69,7 +69,8 @@ public class PantallaOperacion extends Pantalla {
                 txtImporte.positionCaret(txtImporte.getText().length());
             });
             // TODO D2.2 — INICIO: Los importes rápidos no reciben el foco (apartado D2)
-            //   Se comprueba: los botones con clase "importe-rapido" (ids rapido20 … rapido500) no reciben el foco.
+            // Se comprueba: los botones con clase "importe-rapido" (ids rapido20 …
+            // rapido500) no reciben el foco.
 
             b.setFocusTraversable(false);
 
@@ -78,34 +79,36 @@ public class PantallaOperacion extends Pantalla {
         }
 
         // TODO A4.1 — INICIO: Distribución de la pantalla de operación (apartado A4)
-        //   Nombres que usan los tests:
-        //   - contenedor del formulario: id "formulario" y clase "formulario"
-        //   - contenedor de los importes rápidos: id "importesRapidos"
-        //   - ya creados: lblImporte (id "lblImporte") y txtImporte en la misma fila; btnCancelar y btnAceptar
-        //   Obligatorio: comentario // LAYOUT: con la justificación.
-        
+        // Nombres que usan los tests:
+        // - contenedor del formulario: id "formulario" y clase "formulario"
+        // - contenedor de los importes rápidos: id "importesRapidos"
+        // - ya creados: lblImporte (id "lblImporte") y txtImporte en la misma fila;
+        // btnCancelar y btnAceptar
+        // Obligatorio: comentario // LAYOUT: con la justificación.
+
         HBox opciones = new HBox(btnCancelar, btnAceptar);
         opciones.setAlignment(Pos.CENTER_RIGHT);
 
-        VBox formulario = new VBox(terminal, new HBox(lblImporte,txtImporte), new FlowPane(rapidos), opciones); 
+        VBox formulario = new VBox(terminal, new HBox(lblImporte, txtImporte), new FlowPane(rapidos), opciones);
         formulario.setSpacing(12);
-       
+
         HBox contenido = new HBox(formulario, teclado);
         contenido.setSpacing(30);
 
         setCenter(contenido);
         // TODO A4.1 — FIN
 
-        // TODO C3.1 — INICIO: Importe marcado como erróneo mientras se escribe (apartado C3)
-        //   Nombres que usan los tests: pseudo-clase "error" (constante ERROR) en txtImporte; usa validar(texto).
-        txtImporte.textProperty().addListener((obs,viejo,nuevo) ->{
-            if(validar(nuevo) != null){
+        // TODO C3.1 — INICIO: Importe marcado como erróneo mientras se escribe
+        // (apartado C3)
+        // Nombres que usan los tests: pseudo-clase "error" (constante ERROR) en
+        // txtImporte; usa validar(texto).
+        txtImporte.textProperty().addListener((obs, viejo, nuevo) -> {
+            if (validar(nuevo) != null) {
                 txtImporte.pseudoClassStateChanged(ERROR, true);
             } else {
                 txtImporte.pseudoClassStateChanged(ERROR, false);
             }
         });
-
 
         // TODO C3.1 — FIN
     }
@@ -121,6 +124,7 @@ public class PantallaOperacion extends Pantalla {
 
     /**
      * Comprueba el importe escrito.
+     * 
      * @return null si es válido, o el mensaje de error si no lo es
      */
     private String validar(String texto) {
@@ -141,35 +145,91 @@ public class PantallaOperacion extends Pantalla {
         double cantidad = leerImporte(txtImporte.getText());
         String error = validar(txtImporte.getText());
 
-        // TODO E2.1 — INICIO: Avisos, confirmación y recibo de la operación (apartado E2)
-        //   Textos que usan los tests: avisos con las cabeceras "Importe" (advertencia) y "¡D'oh!" (error);
-        //   confirmación con confirmarRetirada(cantidad) solo si se retiran más de LIMITE_CONFIRMACION;
-        //   recibo con app.mostrarRecibo(...) y vuelta al menú con app.mostrarMenu().
+        // TODO E2.1 — INICIO: Avisos, confirmación y recibo de la operación (apartado
+        // E2)
+        // Textos que usan los tests: avisos con las cabeceras "Importe" (advertencia) y
+        // "¡D'oh!" (error);
+        // confirmación con confirmarRetirada(cantidad) solo si se retiran más de
+        // LIMITE_CONFIRMACION;
+        // recibo con app.mostrarRecibo(...) y vuelta al menú con app.mostrarMenu().
         // Provisional: hace la operación sin avisos ni recibo
+
+        // • Una retirada de más de 300 € pide confirmación con dos botones propios:
+        // «Retirar importe» (el de aceptar, con Enter) y «Cambiar importe» (el de
+        // cancelar, con Esc y con la X). Si se elige cambiar, el foco vuelve al
+        // importe.
+        // • Si todo es correcto: se hace la operación en el banco, se muestra el recibo
+        // (apartado E3) y se vuelve al menú.
+
+        // Si el importe no es válido (validar() devuelve un mensaje), se muestra ese
+        // mensaje en un aviso de tipo advertencia con la cabecera «Importe», salvo
+        // «Fondos insuficientes.», que se muestra como error con la cabecera «¡D'oh!».
+        // Después, el foco vuelve al importe (apartado D2).
         if (error == null) {
+            // No hay error: realizamos la operación
             if (ingreso) {
                 banco.ingresar(cantidad);
+                app.mostrarRecibo("Ingreso", cantidad, banco.getSaldoActual());
+                volverAlImporte();
             } else {
-                banco.retirar(cantidad);
-            }
+                if (cantidad > 300) {
+                    if (confirmarRetirada(cantidad)) {
+                         banco.retirar(cantidad);
+                    }
+                } else {
+                    volverAlImporte();
+                }
+            } 
+
             app.mostrarMenu();
+
+        } else if (error.equals("Fondos insuficientes.")) {
+            app.alerta(Alert.AlertType.ERROR, "¡D'oh!", error);
+            volverAlImporte();
+
+        } else if (error.equals("Este cajero solo dispensa billetes de 10, 20 y 50 €.")) {
+            app.alerta(Alert.AlertType.WARNING, "Billetes", error);
+            volverAlImporte();
+
+        } else if (error.equals("Cantidad no válida.")) {
+            app.alerta(Alert.AlertType.WARNING, "Importe", error);
+            volverAlImporte();
         }
+        app.mostrarRecibo(ingreso ? "ingreso" : "retirada", cantidad, banco.getSaldoActual());
+        app.mostrarMenu();
+
         // TODO E2.1 — FIN
     }
 
-    /** Pide confirmación para una retirada elevada. Devuelve true si el usuario confirma. */
+    /**
+     * Pide confirmación para una retirada elevada. Devuelve true si el usuario
+     * confirma.
+     */
     private boolean confirmarRetirada(double cantidad) {
         // TODO E2.2 — INICIO: Confirmación de una retirada elevada (apartado E2)
-        //   Botones que usan los tests: "Retirar <importe>" (el de aceptar) y "Cambiar importe" (el de cancelar).
-        //   Devuelve true solo si se elige retirar.
-        return true;   // provisional
+        // Botones que usan los tests: "Retirar <importe>" (el de aceptar) y "Cambiar
+        // importe" (el de cancelar).
+        // Devuelve true solo si se elige retirar.
+        Alert confirmar = app.crearAlerta(Alert.AlertType.CONFIRMATION, "Confirmar retirada " + cantidad, "euros");
+        ButtonType btnRetirar = new ButtonType("Retirar " + cantidad, ButtonBar.ButtonData.OK_DONE);
+        ButtonType btnCambiar = new ButtonType("Cambiar importe ", ButtonBar.ButtonData.CANCEL_CLOSE);
+        confirmar.getButtonTypes().setAll(btnRetirar, btnCambiar);
+
+        Optional<ButtonType> respuesta = confirmar.showAndWait();
+
+        if (respuesta.isPresent() && respuesta.get() == btnRetirar) {
+            return true;
+        } else return false;
+
         // TODO E2.2 — FIN
     }
 
-    /** Tras cualquier aviso, el foco vuelve al importe con el texto seleccionado. */
+    /**
+     * Tras cualquier aviso, el foco vuelve al importe con el texto seleccionado.
+     */
     private void volverAlImporte() {
         // TODO D2.3 — INICIO: Devolver el foco al importe tras un aviso (apartado D2)
-        //   Se comprueba: foco en txtImporte con todo su texto seleccionado.
+        // Se comprueba: foco en txtImporte con todo su texto seleccionado.
 
         txtImporte.requestFocus();
 
@@ -179,7 +239,7 @@ public class PantallaOperacion extends Pantalla {
     @Override
     public void enfocar() {
         // TODO D1.5 — INICIO: Foco inicial de la operación (apartado D1)
-        //   Se comprueba: foco en txtImporte.
+        // Se comprueba: foco en txtImporte.
 
         txtImporte.requestFocus();
 
